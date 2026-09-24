@@ -80,10 +80,10 @@ export const AdminPanel = () => {
     : orders.filter(o => o.status.toLowerCase() === orderFilter.toLowerCase());
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
+    <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8 animate-fade-in overflow-x-hidden">
       
       {/* Admin Header Banner */}
-      <div className="bg-[#4A2E25] text-[#FAF7F2] rounded-3xl p-6 sm:p-8 mb-8 shadow-md relative overflow-hidden">
+      <div className="bg-[#4A2E25] text-[#FAF7F2] rounded-2xl sm:rounded-3xl p-4 sm:p-8 mb-6 sm:mb-8 shadow-md relative overflow-hidden">
         <div className="absolute -right-10 -bottom-10 w-48 h-48 rounded-full border border-dashed border-white/10 pointer-events-none" />
         
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
@@ -92,7 +92,7 @@ export const AdminPanel = () => {
               <ShieldCheck className="w-3.5 h-3.5" />
               <span>Studio Owner Control Center</span>
             </div>
-            <h1 className="font-serif font-extrabold text-3xl sm:text-4xl">
+            <h1 className="font-serif font-extrabold text-2xl sm:text-4xl">
               Admin Dashboard
             </h1>
             <p className="text-xs text-[#E8D4C8] mt-1">
@@ -102,7 +102,7 @@ export const AdminPanel = () => {
 
           <button
             onClick={() => setActiveTab('add_product')}
-            className="bg-[#8C4A38] hover:bg-[#A35742] text-white px-5 py-2.5 rounded-full text-xs font-bold transition-all shadow-md flex items-center gap-2 shrink-0"
+            className="bg-[#8C4A38] hover:bg-[#A35742] text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs font-bold transition-all shadow-md flex items-center gap-2 shrink-0 w-full sm:w-auto justify-center"
           >
             <Plus className="w-4 h-4" />
             <span>Add New Craft Product</span>
@@ -110,53 +110,53 @@ export const AdminPanel = () => {
         </div>
 
         {/* Overview Stat Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-6 border-t border-white/10">
-          <div className="bg-white/10 backdrop-blur-xs p-3.5 rounded-2xl border border-white/10">
-            <p className="text-[11px] text-[#E8D4C8] font-medium">Total Studio Sales</p>
-            <p className="font-serif font-extrabold text-2xl text-[#E5A93C]">${totalRevenue.toFixed(2)}</p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4 mt-6 pt-6 border-t border-white/10">
+          <div className="bg-white/10 backdrop-blur-xs p-3 sm:p-3.5 rounded-2xl border border-white/10">
+            <p className="text-[10px] sm:text-[11px] text-[#E8D4C8] font-medium">Total Studio Sales</p>
+            <p className="font-serif font-extrabold text-xl sm:text-2xl text-[#E5A93C]">${totalRevenue.toFixed(2)}</p>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-xs p-3.5 rounded-2xl border border-white/10">
-            <p className="text-[11px] text-[#E8D4C8] font-medium">Total Customer Orders</p>
-            <p className="font-serif font-extrabold text-2xl text-white">{orders.length}</p>
+          <div className="bg-white/10 backdrop-blur-xs p-3 sm:p-3.5 rounded-2xl border border-white/10">
+            <p className="text-[10px] sm:text-[11px] text-[#E8D4C8] font-medium">Total Customer Orders</p>
+            <p className="font-serif font-extrabold text-xl sm:text-2xl text-white">{orders.length}</p>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-xs p-3.5 rounded-2xl border border-white/10">
-            <p className="text-[11px] text-[#E8D4C8] font-medium">Pending Shipments</p>
-            <p className="font-serif font-extrabold text-2xl text-[#F9A8D4]">{pendingOrders}</p>
+          <div className="bg-white/10 backdrop-blur-xs p-3 sm:p-3.5 rounded-2xl border border-white/10">
+            <p className="text-[10px] sm:text-[11px] text-[#E8D4C8] font-medium">Pending Shipments</p>
+            <p className="font-serif font-extrabold text-xl sm:text-2xl text-[#F9A8D4]">{pendingOrders}</p>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-xs p-3.5 rounded-2xl border border-white/10">
-            <p className="text-[11px] text-[#E8D4C8] font-medium">Live Products Count</p>
-            <p className="font-serif font-extrabold text-2xl text-[#A7F3D0]">{products.length}</p>
+          <div className="bg-white/10 backdrop-blur-xs p-3 sm:p-3.5 rounded-2xl border border-white/10">
+            <p className="text-[10px] sm:text-[11px] text-[#E8D4C8] font-medium">Live Products Count</p>
+            <p className="font-serif font-extrabold text-xl sm:text-2xl text-[#A7F3D0]">{products.length}</p>
           </div>
         </div>
       </div>
 
       {/* Admin Navigation Tabs */}
-      <div className="flex items-center justify-between gap-4 mb-6 border-b border-[#E3D3C5] pb-3">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-6 border-b border-[#E3D3C5] pb-3">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={() => setActiveTab('orders')}
-            className={`px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-2 ${
+            className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 ${
               activeTab === 'orders'
                 ? 'bg-[#8C4A38] text-white shadow-xs'
                 : 'bg-white border border-[#D6C5B7] text-[#4A2E25] hover:bg-[#FAF6F0]'
             }`}
           >
-            <Package className="w-4 h-4" />
+            <Package className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             <span>Customer Orders ({orders.length})</span>
           </button>
 
           <button
             onClick={() => setActiveTab('products')}
-            className={`px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-2 ${
+            className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 ${
               activeTab === 'products'
                 ? 'bg-[#8C4A38] text-white shadow-xs'
                 : 'bg-white border border-[#D6C5B7] text-[#4A2E25] hover:bg-[#FAF6F0]'
             }`}
           >
-            <ShoppingBag className="w-4 h-4" />
+            <ShoppingBag className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             <span>Store Products ({products.length})</span>
           </button>
         </div>
