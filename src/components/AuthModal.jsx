@@ -1,27 +1,27 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { X, User, ShieldCheck, Lock, Phone, ArrowRight, CheckCircle2, MessageSquare } from 'lucide-react';
+import { X, User, ShieldCheck, Lock, Phone, CheckCircle2, MessageSquare } from 'lucide-react';
 
 export const AuthModal = () => {
   const { isAuthOpen, setIsAuthOpen, loginUser, setCurrentTab, showToast } = useApp();
   
   const [role, setRole] = useState('customer'); // 'customer' | 'admin'
   
-  // Admin Form State
-  const [adminUsername, setAdminUsername] = useState('ishita_sharma');
-  const [adminPassword, setAdminPassword] = useState('ishita@12');
+  // Admin Form State (Starts Empty - Private Credentials)
+  const [adminUsername, setAdminUsername] = useState('');
+  const [adminPassword, setAdminPassword] = useState('');
   const [adminError, setAdminError] = useState('');
 
-  // Customer OTP Form State
-  const [customerPhone, setCustomerPhone] = useState('9876543210');
-  const [customerName, setCustomerName] = useState('Ishita Sharma');
+  // Customer OTP Form State (Starts Empty)
+  const [customerPhone, setCustomerPhone] = useState('');
+  const [customerName, setCustomerName] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const [otpInput, setOtpInput] = useState('');
   const [demoOtp, setDemoOtp] = useState('1234');
 
   if (!isAuthOpen) return null;
 
-  // Handle Admin Login (Strict Admin Credentials Check: ishita_sharma / ishita@12)
+  // Handle Admin Login (Checks for exact credentials: ishita_sharma / ishita@12)
   const handleAdminSubmit = (e) => {
     e.preventDefault();
     setAdminError('');
@@ -37,7 +37,7 @@ export const AuthModal = () => {
       });
       setCurrentTab('admin');
     } else {
-      setAdminError('Invalid Admin Credentials! Required username: ishita_sharma, password: ishita@12');
+      setAdminError('Invalid Admin Username or Password. Access Denied.');
     }
   };
 
@@ -51,7 +51,7 @@ export const AuthModal = () => {
     const generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
     setDemoOtp(generatedOtp);
     setOtpSent(true);
-    showToast(`OTP sent to +91 ${customerPhone}! (Demo OTP: ${generatedOtp})`);
+    showToast(`OTP sent to +91 ${customerPhone}!`);
   };
 
   // Step 2: Verify OTP & Login Customer
@@ -177,7 +177,7 @@ export const AuthModal = () => {
                       value={customerPhone}
                       onChange={(e) => setCustomerPhone(e.target.value.replace(/\D/g, ''))}
                       className="w-full pl-12 pr-3 py-2 bg-white border border-[#D6C5B7] rounded-xl text-xs font-mono focus:ring-2 focus:ring-[#8C4A38]/30"
-                      placeholder="9876543210"
+                      placeholder="Enter 10-digit mobile number"
                     />
                   </div>
                   <p className="text-[10px] text-[#8C7A6B] mt-1 italic">
@@ -198,14 +198,14 @@ export const AuthModal = () => {
                 <div className="bg-[#FFF4E5] border border-[#F0D5B5] p-3 rounded-2xl text-xs text-[#855B14] flex items-center justify-between">
                   <div>
                     <p className="font-bold">OTP sent to +91 {customerPhone}</p>
-                    <p className="text-[10px] text-[#9A6A18] mt-0.5">Enter OTP code below (Demo OTP: <strong className="font-mono text-[#8C4A38]">{demoOtp}</strong>)</p>
+                    <p className="text-[10px] text-[#9A6A18] mt-0.5">Enter 4-digit OTP code received on SMS</p>
                   </div>
                   <button
                     type="button"
                     onClick={() => setOtpSent(false)}
                     className="text-[10px] underline font-bold text-[#8C4A38]"
                   >
-                    Change
+                    Change Number
                   </button>
                 </div>
 
@@ -236,11 +236,11 @@ export const AuthModal = () => {
           </div>
         )}
 
-        {/* ADMIN LOGIN FORM (ishita_sharma / ishita@12) */}
+        {/* ADMIN LOGIN FORM (Private Credentials) */}
         {role === 'admin' && (
           <form onSubmit={handleAdminSubmit} className="space-y-4">
             {adminError && (
-              <div className="bg-red-50 border border-red-200 text-red-700 text-xs p-3 rounded-xl font-medium">
+              <div className="bg-red-50 border border-red-200 text-red-700 text-xs p-3 rounded-xl font-medium text-center">
                 {adminError}
               </div>
             )}
@@ -256,7 +256,7 @@ export const AuthModal = () => {
                   value={adminUsername}
                   onChange={(e) => setAdminUsername(e.target.value)}
                   className="w-full pl-9 pr-3 py-2 bg-white border border-[#D6C5B7] rounded-xl text-xs font-mono focus:ring-2 focus:ring-[#4A2E25]/30"
-                  placeholder="ishita_sharma"
+                  placeholder="Enter admin username"
                 />
                 <User className="w-4 h-4 text-[#8C7A6B] absolute left-3 top-1/2 -translate-y-1/2" />
               </div>

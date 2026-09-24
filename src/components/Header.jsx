@@ -30,13 +30,6 @@ export const Header = () => {
 
   return (
     <header className="sticky top-0 z-40 bg-[#FAF7F2]/90 backdrop-blur-md border-b border-[#E8D4C8]">
-      {/* Top Banner Notice */}
-      <div className="bg-[#8C4A38] text-[#F9F5F0] text-xs py-1.5 px-4 text-center font-medium tracking-wide flex items-center justify-center gap-2">
-        <Sparkles className="w-3.5 h-3.5 text-[#E5A93C] animate-spin" style={{ animationDuration: '4s' }} />
-        <span>Handmade with love • Free worldwide shipping on craft orders over $60 • <strong>100% Online Secure Payments Only</strong></span>
-        <Sparkles className="w-3.5 h-3.5 text-[#E5A93C] animate-spin" style={{ animationDuration: '4s' }} />
-      </div>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
         <div className="flex items-center justify-between gap-4">
           
