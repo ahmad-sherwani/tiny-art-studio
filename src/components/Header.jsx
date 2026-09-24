@@ -9,7 +9,6 @@ import {
   Sparkles, 
   Package, 
   LogOut, 
-  UploadCloud,
   Layers
 } from 'lucide-react';
 
@@ -24,7 +23,6 @@ export const Header = () => {
     setSearchQuery,
     setIsCartOpen,
     setIsAuthOpen,
-    setIsDeployGuideOpen,
     logoutUser
   } = useApp();
 
@@ -82,16 +80,6 @@ export const Header = () => {
 
           {/* Action Buttons */}
           <div className="flex items-center gap-2 sm:gap-3">
-
-            {/* Vercel / GitHub Deploy Help Button */}
-            <button
-              onClick={() => setIsDeployGuideOpen(true)}
-              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-[#F0ECE1] text-[#634E42] border border-[#D6C5B7] hover:bg-[#E8E2D5] transition-colors shadow-xs"
-              title="Deploy on Vercel & GitHub instructions"
-            >
-              <UploadCloud className="w-3.5 h-3.5 text-[#8C4A38]" />
-              <span>Deploy Guide</span>
-            </button>
 
             {/* Mode Toggle: Shop / Orders / Admin */}
             <div className="flex items-center bg-[#F3EAE1] p-1 rounded-full border border-[#E3D3C5]">

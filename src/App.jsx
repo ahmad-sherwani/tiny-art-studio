@@ -9,7 +9,6 @@ import { CheckoutModal } from './components/CheckoutModal';
 import { AuthModal } from './components/AuthModal';
 import { AdminPanel } from './components/AdminPanel';
 import { MyOrders } from './components/MyOrders';
-import { DeploymentGuideModal } from './components/DeploymentGuideModal';
 import { Footer } from './components/Footer';
 import { Toast } from './components/Toast';
 import { Heart, Search, SlidersHorizontal, Package, Sparkles } from 'lucide-react';
@@ -180,7 +179,6 @@ const MainContent = () => {
       <CartDrawer />
       <CheckoutModal />
       <AuthModal />
-      <DeploymentGuideModal />
       <Toast />
 
       <Footer />

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { Heart, ShieldCheck, UploadCloud } from 'lucide-react';
+import { Heart, ShieldCheck } from 'lucide-react';
 
 export const Footer = () => {
-  const { setCurrentTab, setIsAuthOpen, setIsDeployGuideOpen, user } = useApp();
+  const { setCurrentTab, setIsAuthOpen, user } = useApp();
 
   return (
     <footer className="bg-[#2D231E] text-[#E8D4C8] border-t border-[#4A2E25] pt-12 pb-8 px-4 sm:px-6 lg:px-8 mt-16">
@@ -61,21 +61,14 @@ export const Footer = () => {
           </ul>
         </div>
 
-        {/* Payment & Deployment Info */}
+        {/* Payment Info */}
         <div>
           <h4 className="font-serif font-bold text-sm text-white uppercase tracking-wider mb-3">
             Online Payments
           </h4>
           <p className="text-xs text-[#C5B4A5] mb-3">
-            Secure checkout via Stripe & Instant UPI. <strong className="text-white">Cash on Delivery (COD) is disabled.</strong>
+            Secure checkout via Cards & Instant UPI. <strong className="text-white">Cash on Delivery (COD) is disabled.</strong>
           </p>
-          <button
-            onClick={() => setIsDeployGuideOpen(true)}
-            className="w-full bg-[#8C4A38] hover:bg-[#723A2B] text-white py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-xs"
-          >
-            <UploadCloud className="w-4 h-4" />
-            <span>Vercel & GitHub Deploy Guide</span>
-          </button>
         </div>
 
       </div>

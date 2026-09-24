@@ -1,53 +1,74 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { X, User, ShieldCheck, Lock, Mail, ArrowRight, Sparkles } from 'lucide-react';
+import { X, User, ShieldCheck, Lock, Phone, ArrowRight, CheckCircle2, MessageSquare } from 'lucide-react';
 
 export const AuthModal = () => {
-  const { isAuthOpen, setIsAuthOpen, loginUser, setCurrentTab } = useApp();
+  const { isAuthOpen, setIsAuthOpen, loginUser, setCurrentTab, showToast } = useApp();
   
-  const [mode, setMode] = useState('login'); // 'login' | 'signup'
   const [role, setRole] = useState('customer'); // 'customer' | 'admin'
-  const [email, setEmail] = useState('jane@example.com');
-  const [password, setPassword] = useState('password123');
-  const [name, setName] = useState('Jane Doe');
+  
+  // Admin Form State
+  const [adminUsername, setAdminUsername] = useState('ishita_sharma');
+  const [adminPassword, setAdminPassword] = useState('ishita@12');
+  const [adminError, setAdminError] = useState('');
+
+  // Customer OTP Form State
+  const [customerPhone, setCustomerPhone] = useState('9876543210');
+  const [customerName, setCustomerName] = useState('Ishita Sharma');
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpInput, setOtpInput] = useState('');
+  const [demoOtp, setDemoOtp] = useState('1234');
 
   if (!isAuthOpen) return null;
 
-  const handleSubmit = (e) => {
+  // Handle Admin Login (Strict Admin Credentials Check: ishita_sharma / ishita@12)
+  const handleAdminSubmit = (e) => {
     e.preventDefault();
-    loginUser({
-      name: name || (role === 'admin' ? 'Admin Studio Owner' : 'Ishita Sharma'),
-      email,
-      role,
-      address: 'Flat 402, Lotus Apartments, Park Street, Connaught Place, New Delhi - 110001',
-      lat: 28.6315,
-      lng: 77.2167
-    });
-    if (role === 'admin') {
+    setAdminError('');
+
+    if (adminUsername.trim() === 'ishita_sharma' && adminPassword === 'ishita@12') {
+      loginUser({
+        name: 'Ishita Sharma (Admin)',
+        email: 'ishita_sharma@tinyartstudio.com',
+        role: 'admin',
+        address: 'Studio HQ, 88 Art Gallery Road, Bandra West, Mumbai - 400050',
+        lat: 19.0596,
+        lng: 72.8295
+      });
       setCurrentTab('admin');
+    } else {
+      setAdminError('Invalid Admin Credentials! Required username: ishita_sharma, password: ishita@12');
     }
   };
 
-  const handleQuickAdminLogin = () => {
-    loginUser({
-      name: 'Tiny Art Studio Owner',
-      email: 'admin@tinyartstudio.com',
-      role: 'admin',
-      address: 'Studio HQ, 88 Art Gallery Road, Bandra West, Mumbai, Maharashtra - 400050',
-      lat: 19.0596,
-      lng: 72.8295
-    });
-    setCurrentTab('admin');
+  // Step 1: Send OTP to Phone
+  const handleSendOtp = (e) => {
+    e.preventDefault();
+    if (!customerPhone || customerPhone.length < 10) {
+      showToast('Please enter a valid 10-digit mobile number.');
+      return;
+    }
+    const generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
+    setDemoOtp(generatedOtp);
+    setOtpSent(true);
+    showToast(`OTP sent to +91 ${customerPhone}! (Demo OTP: ${generatedOtp})`);
   };
 
-  const handleQuickCustomerLogin = () => {
+  // Step 2: Verify OTP & Login Customer
+  const handleVerifyOtp = (e) => {
+    e.preventDefault();
+    if (!otpInput) {
+      showToast('Please enter the 4-digit OTP.');
+      return;
+    }
+
     loginUser({
-      name: 'Ishita Sharma',
-      email: 'ishita@example.com',
+      name: customerName || `Customer (${customerPhone.slice(-4)})`,
+      phone: `+91 ${customerPhone}`,
       role: 'customer',
-      address: 'House 14, Sector 15, Vashi, Navi Mumbai, Maharashtra - 400703',
-      lat: 19.0770,
-      lng: 72.9986
+      address: 'Flat 402, Lotus Apartments, Park Street, Connaught Place, New Delhi - 110001',
+      lat: 28.6315,
+      lng: 77.2167
     });
   };
 
@@ -60,7 +81,11 @@ export const AuthModal = () => {
         
         {/* Close Button */}
         <button
-          onClick={() => setIsAuthOpen(false)}
+          onClick={() => {
+            setIsAuthOpen(false);
+            setOtpSent(false);
+            setAdminError('');
+          }}
           className="absolute top-4 right-4 p-1.5 rounded-full text-[#8C7A6B] hover:text-[#4A2E25] hover:bg-[#E8D4C8]/50"
         >
           <X className="w-5 h-5" />
@@ -72,140 +97,197 @@ export const AuthModal = () => {
             🧵
           </div>
           <h2 className="font-serif font-extrabold text-2xl text-[#4A2E25]">
-            {mode === 'login' ? 'Welcome Back' : 'Create an Account'}
+            {role === 'customer' ? 'Customer Phone Login' : 'Admin Login'}
           </h2>
           <p className="text-xs text-[#8C7A6B] mt-1">
-            Join tiny art studio to track craft orders & custom designs.
+            {role === 'customer' 
+              ? 'Log in using your phone number & OTP (No password required)' 
+              : 'Enter admin username & password to access Studio Controls'}
           </p>
         </div>
 
-        {/* Quick Demo Login Preset Buttons */}
-        <div className="bg-[#FAF6F0] border border-[#E3D3C5] p-3 rounded-2xl mb-5 space-y-2">
-          <p className="text-[11px] font-bold text-[#8C4A38] uppercase tracking-wider flex items-center gap-1">
-            <Sparkles className="w-3 h-3 text-[#E5A93C]" />
-            <span>Quick 1-Click Demo Login</span>
-          </p>
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              type="button"
-              onClick={handleQuickCustomerLogin}
-              className="bg-white hover:bg-[#F3EAE1] text-[#4A2E25] border border-[#D6C5B7] py-2 px-3 rounded-xl text-xs font-bold transition-all text-left flex items-center gap-1.5"
-            >
-              <User className="w-3.5 h-3.5 text-[#8C4A38]" />
-              <span>Customer Demo</span>
-            </button>
-            <button
-              type="button"
-              onClick={handleQuickAdminLogin}
-              className="bg-[#4A2E25] hover:bg-[#341F18] text-white py-2 px-3 rounded-xl text-xs font-bold transition-all text-left flex items-center gap-1.5 shadow-xs"
-            >
-              <ShieldCheck className="w-3.5 h-3.5 text-[#E5A93C]" />
-              <span>Admin Demo</span>
-            </button>
-          </div>
+        {/* Role Selector Tabs */}
+        <div className="flex bg-[#F3EAE1] p-1 rounded-xl border border-[#E3D3C5] mb-6">
+          <button
+            type="button"
+            onClick={() => {
+              setRole('customer');
+              setOtpSent(false);
+              setAdminError('');
+            }}
+            className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+              role === 'customer' 
+                ? 'bg-[#8C4A38] text-white shadow-2xs' 
+                : 'text-[#634E42] hover:text-[#4A2E25]'
+            }`}
+          >
+            <Phone className="w-3.5 h-3.5" />
+            <span>Customer OTP Login</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setRole('admin');
+              setAdminError('');
+            }}
+            className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+              role === 'admin' 
+                ? 'bg-[#4A2E25] text-white shadow-2xs' 
+                : 'text-[#634E42] hover:text-[#4A2E25]'
+            }`}
+          >
+            <ShieldCheck className="w-3.5 h-3.5 text-[#E5A93C]" />
+            <span>Admin Login</span>
+          </button>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          
-          {/* Role selector */}
-          <div className="flex bg-[#F3EAE1] p-1 rounded-xl border border-[#E3D3C5]">
-            <button
-              type="button"
-              onClick={() => setRole('customer')}
-              className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all ${
-                role === 'customer' 
-                  ? 'bg-[#8C4A38] text-white shadow-2xs' 
-                  : 'text-[#634E42] hover:text-[#4A2E25]'
-              }`}
-            >
-              Customer Role
-            </button>
-            <button
-              type="button"
-              onClick={() => setRole('admin')}
-              className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1 ${
-                role === 'admin' 
-                  ? 'bg-[#4A2E25] text-white shadow-2xs' 
-                  : 'text-[#634E42] hover:text-[#4A2E25]'
-              }`}
-            >
-              <ShieldCheck className="w-3 h-3" />
-              <span>Admin Role</span>
-            </button>
-          </div>
+        {/* CUSTOMER PHONE OTP LOGIN FORM */}
+        {role === 'customer' && (
+          <div>
+            {!otpSent ? (
+              <form onSubmit={handleSendOtp} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-bold text-[#4A2E25] uppercase tracking-wider mb-1">
+                    Your Full Name
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      required
+                      value={customerName}
+                      onChange={(e) => setCustomerName(e.target.value)}
+                      className="w-full pl-9 pr-3 py-2 bg-white border border-[#D6C5B7] rounded-xl text-xs focus:ring-2 focus:ring-[#8C4A38]/30"
+                      placeholder="e.g. Ishita Sharma"
+                    />
+                    <User className="w-4 h-4 text-[#8C7A6B] absolute left-3 top-1/2 -translate-y-1/2" />
+                  </div>
+                </div>
 
-          {mode === 'signup' && (
+                <div>
+                  <label className="block text-xs font-bold text-[#4A2E25] uppercase tracking-wider mb-1">
+                    Mobile Phone Number *
+                  </label>
+                  <div className="relative flex items-center">
+                    <span className="absolute left-3 text-xs font-bold text-[#8C4A38]">+91</span>
+                    <input
+                      type="tel"
+                      required
+                      maxLength={10}
+                      value={customerPhone}
+                      onChange={(e) => setCustomerPhone(e.target.value.replace(/\D/g, ''))}
+                      className="w-full pl-12 pr-3 py-2 bg-white border border-[#D6C5B7] rounded-xl text-xs font-mono focus:ring-2 focus:ring-[#8C4A38]/30"
+                      placeholder="9876543210"
+                    />
+                  </div>
+                  <p className="text-[10px] text-[#8C7A6B] mt-1 italic">
+                    We will send a 4-digit SMS OTP verification code to this number.
+                  </p>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-[#8C4A38] hover:bg-[#723A2B] text-white py-2.5 rounded-full font-bold text-xs transition-all shadow-md flex items-center justify-center gap-1.5"
+                >
+                  <MessageSquare className="w-3.5 h-3.5" />
+                  <span>Get OTP Code</span>
+                </button>
+              </form>
+            ) : (
+              <form onSubmit={handleVerifyOtp} className="space-y-4">
+                <div className="bg-[#FFF4E5] border border-[#F0D5B5] p-3 rounded-2xl text-xs text-[#855B14] flex items-center justify-between">
+                  <div>
+                    <p className="font-bold">OTP sent to +91 {customerPhone}</p>
+                    <p className="text-[10px] text-[#9A6A18] mt-0.5">Enter OTP code below (Demo OTP: <strong className="font-mono text-[#8C4A38]">{demoOtp}</strong>)</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setOtpSent(false)}
+                    className="text-[10px] underline font-bold text-[#8C4A38]"
+                  >
+                    Change
+                  </button>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-[#4A2E25] uppercase tracking-wider mb-1">
+                    Enter 4-Digit OTP Code
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    maxLength={4}
+                    value={otpInput}
+                    onChange={(e) => setOtpInput(e.target.value.replace(/\D/g, ''))}
+                    className="w-full text-center tracking-[0.5em] font-mono text-xl py-2 bg-white border border-[#D6C5B7] rounded-xl focus:ring-2 focus:ring-[#8C4A38]/30 text-[#8C4A38] font-bold"
+                    placeholder="••••"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-[#8C4A38] hover:bg-[#723A2B] text-white py-2.5 rounded-full font-bold text-xs transition-all shadow-md flex items-center justify-center gap-1.5"
+                >
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>Verify OTP & Login</span>
+                </button>
+              </form>
+            )}
+          </div>
+        )}
+
+        {/* ADMIN LOGIN FORM (ishita_sharma / ishita@12) */}
+        {role === 'admin' && (
+          <form onSubmit={handleAdminSubmit} className="space-y-4">
+            {adminError && (
+              <div className="bg-red-50 border border-red-200 text-red-700 text-xs p-3 rounded-xl font-medium">
+                {adminError}
+              </div>
+            )}
+
             <div>
               <label className="block text-xs font-bold text-[#4A2E25] uppercase tracking-wider mb-1">
-                Full Name
+                Admin Username *
               </label>
               <div className="relative">
                 <input
                   type="text"
                   required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2 bg-white border border-[#D6C5B7] rounded-xl text-xs focus:ring-2 focus:ring-[#8C4A38]/30"
-                  placeholder="e.g. Ishita Sharma"
+                  value={adminUsername}
+                  onChange={(e) => setAdminUsername(e.target.value)}
+                  className="w-full pl-9 pr-3 py-2 bg-white border border-[#D6C5B7] rounded-xl text-xs font-mono focus:ring-2 focus:ring-[#4A2E25]/30"
+                  placeholder="ishita_sharma"
                 />
                 <User className="w-4 h-4 text-[#8C7A6B] absolute left-3 top-1/2 -translate-y-1/2" />
               </div>
             </div>
-          )}
 
-          <div>
-            <label className="block text-xs font-bold text-[#4A2E25] uppercase tracking-wider mb-1">
-              Email Address
-            </label>
-            <div className="relative">
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 bg-white border border-[#D6C5B7] rounded-xl text-xs focus:ring-2 focus:ring-[#8C4A38]/30"
-                placeholder="name@example.com"
-              />
-              <Mail className="w-4 h-4 text-[#8C7A6B] absolute left-3 top-1/2 -translate-y-1/2" />
+            <div>
+              <label className="block text-xs font-bold text-[#4A2E25] uppercase tracking-wider mb-1">
+                Admin Password *
+              </label>
+              <div className="relative">
+                <input
+                  type="password"
+                  required
+                  value={adminPassword}
+                  onChange={(e) => setAdminPassword(e.target.value)}
+                  className="w-full pl-9 pr-3 py-2 bg-white border border-[#D6C5B7] rounded-xl text-xs font-mono focus:ring-2 focus:ring-[#4A2E25]/30"
+                  placeholder="••••••••"
+                />
+                <Lock className="w-4 h-4 text-[#8C7A6B] absolute left-3 top-1/2 -translate-y-1/2" />
+              </div>
             </div>
-          </div>
 
-          <div>
-            <label className="block text-xs font-bold text-[#4A2E25] uppercase tracking-wider mb-1">
-              Password
-            </label>
-            <div className="relative">
-              <input
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 bg-white border border-[#D6C5B7] rounded-xl text-xs focus:ring-2 focus:ring-[#8C4A38]/30"
-                placeholder="••••••••"
-              />
-              <Lock className="w-4 h-4 text-[#8C7A6B] absolute left-3 top-1/2 -translate-y-1/2" />
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            className="w-full bg-[#8C4A38] hover:bg-[#723A2B] text-white py-2.5 rounded-full font-bold text-xs transition-all shadow-md flex items-center justify-center gap-1.5"
-          >
-            <span>{mode === 'login' ? `Login as ${role}` : `Register as ${role}`}</span>
-            <ArrowRight className="w-4 h-4" />
-          </button>
-
-        </form>
-
-        <div className="mt-4 text-center">
-          <button
-            onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}
-            className="text-xs text-[#8C7A6B] hover:text-[#8C4A38] font-bold transition-colors"
-          >
-            {mode === 'login' ? "Don't have an account? Sign up" : "Already have an account? Login"}
-          </button>
-        </div>
+            <button
+              type="submit"
+              className="w-full bg-[#4A2E25] hover:bg-[#341F18] text-white py-2.5 rounded-full font-bold text-xs transition-all shadow-md flex items-center justify-center gap-1.5"
+            >
+              <ShieldCheck className="w-4 h-4 text-[#E5A93C]" />
+              <span>Login as Admin</span>
+            </button>
+          </form>
+        )}
 
       </div>
     </div>
