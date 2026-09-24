@@ -1,0 +1,123 @@
+export const INITIAL_PRODUCTS = [
+  {
+    id: 'prod-1',
+    title: 'Botanical Wildflower Embroidery Hoop (6")',
+    price: 34.99,
+    originalPrice: 42.00,
+    category: 'Embroidery Hoops',
+    description: 'Hand-stitched French knots and delicate wildflower stems on natural unbleached linen stretched in a 6-inch wooden hoop. Made with 100% DMC cotton threads.',
+    image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80',
+    stock: 8,
+    rating: 4.9,
+    reviewsCount: 24,
+    tags: ['Best Seller', 'Hand-stitched', 'Floral'],
+    isFeatured: true
+  },
+  {
+    id: 'prod-2',
+    title: 'Custom Name & Date Baby Announcement Hoop',
+    price: 49.99,
+    originalPrice: 55.00,
+    category: 'Custom Orders',
+    description: 'Personalized embroidery hoop featuring hand-stitched calligraphy text, pastel floral border, and customized birth details. Perfect for nursery decor or baby shower gifts.',
+    image: 'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=800&q=80',
+    stock: 5,
+    rating: 5.0,
+    reviewsCount: 31,
+    tags: ['Personalized', 'Nursery', 'Made to Order'],
+    isFeatured: true
+  },
+  {
+    id: 'prod-3',
+    title: 'Cozy Cottagecore Mushroom Stitch Art (5")',
+    price: 29.99,
+    originalPrice: 35.00,
+    category: 'Embroidery Hoops',
+    description: 'A tiny toadstool & moss patch hand-stitched on rust-brown cotton fabric with raised textured thread work. Encased in an ornate oval hoop.',
+    image: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80',
+    stock: 12,
+    rating: 4.8,
+    reviewsCount: 19,
+    tags: ['Cottagecore', 'Textured', 'Woodland'],
+    isFeatured: false
+  },
+  {
+    id: 'prod-4',
+    title: 'Hand-Painted Ceramic Ring Dish - Lavender Dreams',
+    price: 22.50,
+    originalPrice: 28.00,
+    category: 'Clay & Ceramics',
+    description: 'Hand-sculpted air-dry clay dish glazed with non-toxic glossy finish, adorned with delicate gold-leaf trim and hand-painted lavender sprigs.',
+    image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=800&q=80',
+    stock: 15,
+    rating: 4.9,
+    reviewsCount: 16,
+    tags: ['Hand-painted', 'Gold Trim', 'Jewelry Dish'],
+    isFeatured: true
+  },
+  {
+    id: 'prod-5',
+    title: 'Crochet Daisy Tote Bag - Vintage Cream',
+    price: 39.99,
+    originalPrice: 48.00,
+    category: 'Crochet & Stitches',
+    description: 'Granny square daisy pattern hand-crocheted with soft cotton yarn. Fully lined with cotton interior pocket for keys and phone.',
+    image: 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=800&q=80',
+    stock: 6,
+    rating: 4.7,
+    reviewsCount: 42,
+    tags: ['Crochet', 'Sustainable', 'Everyday Carry'],
+    isFeatured: true
+  },
+  {
+    id: 'prod-6',
+    title: 'Pressed Flower Glass Frame (Golden Hour)',
+    price: 36.00,
+    originalPrice: 45.00,
+    category: 'Pressed Flowers',
+    description: 'Real pressed pansies, baby breath, and fern fronds double-glass framed in an vintage brass hanging chain frame.',
+    image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80',
+    stock: 4,
+    rating: 5.0,
+    reviewsCount: 15,
+    tags: ['Real Flowers', 'Vintage Brass', 'Wall Art'],
+    isFeatured: false
+  },
+  {
+    id: 'prod-7',
+    title: 'Custom Pet Portrait Thread Art (7")',
+    price: 65.00,
+    originalPrice: 75.00,
+    category: 'Custom Orders',
+    description: 'Send us a photo of your dog, cat, or pet! We turn it into a realistic needle-painted thread portrait capturing every whisker and color shade.',
+    image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80',
+    stock: 3,
+    rating: 5.0,
+    reviewsCount: 58,
+    tags: ['Pet Portrait', 'Needle Painting', 'Custom Gift'],
+    isFeatured: true
+  },
+  {
+    id: 'prod-8',
+    title: 'Miniature Terrarium Embroidered Keychain',
+    price: 16.50,
+    originalPrice: 20.00,
+    category: 'Crochet & Stitches',
+    description: 'A tiny 1.5-inch micro embroidery hoop featuring a little cactus stitch, mounted on an antique bronze keyring with tassel.',
+    image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80',
+    stock: 20,
+    rating: 4.9,
+    reviewsCount: 38,
+    tags: ['Keychain', 'Miniature', 'Cute Gift'],
+    isFeatured: false
+  }
+];
+
+export const CATEGORIES = [
+  'All Crafts',
+  'Embroidery Hoops',
+  'Custom Orders',
+  'Crochet & Stitches',
+  'Clay & Ceramics',
+  'Pressed Flowers'
+];
